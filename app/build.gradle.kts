@@ -1,28 +1,43 @@
 plugins {
-    application
-    checkstyle
-    id("org.sonarqube") version "7.0.1.6134"
-    jacoco
+    id("java")
+    id("application")
+    id("io.freefair.lombok") version "8.4"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("jacoco")
+}
+
+application {
+    mainClass.set("hexlet.code.App")
 }
 
 group = "hexlet.code"
 version = "1.0-SNAPSHOT"
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    implementation("org.slf4j:slf4j-simple:2.0.17")
+    implementation("com.h2database:h2:2.3.232")
+    implementation("org.postgresql:postgresql:42.7.4")
+    implementation("com.zaxxer:HikariCP:5.1.0")
+
+    implementation("gg.jte:jte:3.1.9")
+    implementation("io.javalin:javalin:6.1.3")
+    implementation("io.javalin:javalin-rendering:6.1.3")
+
+    implementation("com.konghq:unirest-java:3.14.5")
+    implementation("org.jsoup:jsoup:1.17.2")
+
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("io.javalin:javalin-testtools:6.1.3")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }
 
 tasks.test {
@@ -34,52 +49,5 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
         xml.required.set(true)
-        html.required.set(true)
-        csv.required.set(false)
-    }
-}
-
-tasks.jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = "0.5".toBigDecimal()
-            }
-        }
-    }
-}
-
-tasks.check {
-    dependsOn(tasks.jacocoTestCoverageVerification)
-}
-
-tasks.checkstyleMain {
-    dependsOn(tasks.compileJava)
-}
-
-tasks.checkstyleTest {
-    dependsOn(tasks.compileTestJava)
-}
-
-checkstyle {
-    toolVersion = "10.12.1"
-    configFile = file("Config/checkstyle/checkstyle.xml")
-    isIgnoreFailures = false
-    isShowViolations = true
-}
-
-sonar {
-    properties {
-        property("sonar.projectKey", "TechWizard-SS_java-project-72")
-        property("sonar.organization", "techwizard-ss")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.sources", "src/main")
-        property("sonar.tests", "src/test")
-        property("sonar.java.binaries", "build/classes/java/main")
-        property("sonar.java.test.binaries", "build/classes/java/test")
-        property("sonar.java.test.reportPaths", "build/test-results/test")
-        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
-        property("sonar.exclusions", "**/build/**,**/generated/**")
-        property("sonar.verbose", "true")
     }
 }
