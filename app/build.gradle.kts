@@ -4,6 +4,8 @@ plugins {
     id("io.freefair.lombok") version "8.4"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("jacoco")
+    checkstyle
+    id("org.sonarqube") version "6.2.0.5505"
 }
 
 application {
@@ -49,5 +51,20 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
         xml.required.set(true)
+    }
+}
+
+checkstyle {
+    toolVersion = "10.12.1"
+    configFile = file("config/checkstyle/checkstyle.xml")
+    isIgnoreFailures = false
+    isShowViolations = true
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "TechWizard-SS_java-project-72")
+        property("sonar.organization", "techwizard-ss")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }

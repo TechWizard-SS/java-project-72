@@ -10,13 +10,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.sql.SQLException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppTest {
+
+public final class AppTest {
 
     private static MockWebServer mockServer;
 
