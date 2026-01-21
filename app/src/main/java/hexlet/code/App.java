@@ -2,8 +2,6 @@ package hexlet.code;
 
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
-import hexlet.code.repository.UrlCheckRepository;
-import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
