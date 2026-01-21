@@ -13,10 +13,6 @@ import java.util.Optional;
 
 public class UrlRepository extends BaseRepository {
 
-    public static void setDataSource(DataSource ds) {
-        dataSource = ds;
-    }
-
     public static Optional<Url> findByName(String name) throws SQLException {
         String sql = "SELECT * FROM urls WHERE name = ?";
 

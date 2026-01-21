@@ -1,6 +1,6 @@
 package gg.jte.generated.ondemand.urls;
 import hexlet.code.dto.urls.UrlsPage;
-import hexlet.code.utils.NamedRoutes;
+import hexlet.code.util.NamedRoutes;
 public final class JteindexGenerated {
 	public static final String JTE_NAME = "urls/index.jte";
 	public static final int[] JTE_LINE_INFO = {0,0,1,2,2,2,4,4,7,7,21,21,23,23,23,25,25,25,25,25,25,25,25,25,25,25,25,28,28,29,29,29,30,30,33,33,34,34,34,35,35,38,38,44,44,44,44,45,45,45,45,45,45,45,45,47,47,48,48,48,48,49,49,49,49,49,49,49,49,49,49,49,51,51,52,52,52,52,53,53,53,53,53,53,53,53,58,58,58,59,59,59,2,2,2,2};

@@ -6,14 +6,14 @@ import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
-import hexlet.code.utils.NamedRoutes;
+import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
-
 import java.net.URI;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Collections;
 
 public class UrlController {
@@ -87,6 +87,7 @@ public class UrlController {
             var description = descEl != null ? descEl.attr("content") : "";
 
             var check = new UrlCheck(statusCode, title, h1, description, urlId);
+            check.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             UrlCheckRepository.save(check);
 
             ctx.sessionAttribute("flash", "Страница успешно проверена");

@@ -4,10 +4,10 @@ import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
-import hexlet.code.utils.NamedRoutes;
+import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
-
+import hexlet.code.repository.BaseRepository;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
@@ -23,8 +23,10 @@ public class App {
 
     public static Javalin getApp() throws SQLException {
         var dataSource = DataSourceConfig.getDataSource();
-        UrlRepository.setDataSource(dataSource);
-        UrlCheckRepository.setDataSource(dataSource);
+
+        if (BaseRepository.dataSource == null) {
+            BaseRepository.dataSource = dataSource;
+        }
 
         var app = Javalin.create(config -> {
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
