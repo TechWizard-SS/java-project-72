@@ -60,7 +60,6 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static List<Url> findAll(int rowsPerPage, int offset) throws SQLException {
-        // Сортируем по ASC, чтобы ID 1 был вверху
         String sql = "SELECT * FROM urls ORDER BY id ASC LIMIT ? OFFSET ?";
         List<Url> urls = new ArrayList<>();
 

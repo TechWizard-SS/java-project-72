@@ -35,7 +35,7 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static List<UrlCheck> findByUrlId(Long urlId) throws SQLException {
-        String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY id ASC";
+        String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY id DESC";
         var result = new ArrayList<UrlCheck>();
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
@@ -57,9 +57,8 @@ public class UrlCheckRepository extends BaseRepository {
         return result;
     }
 
-    // Метод для получения последних проверок для каждого URL (для главной таблицы)
     public static Map<Long, UrlCheck> findLatestChecks() throws SQLException {
-        String sql = "SELECT * FROM url_checks WHERE id IN (SELECT MAX(id) FROM url_checks GROUP BY url_id)";
+        String sql = "SELECT * FROM url_checks WHERE id IN (SELECT MAX(id) FROM url_checks GROUP BY url_id )";
         var result = new HashMap<Long, UrlCheck>();
 
         try (var conn = dataSource.getConnection();

@@ -16,8 +16,8 @@ content = @`
         <table class="table table-bordered mt-3">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Код ответа</th>
+                <th class="col-1">ID</th>
+                <th class="col-1">Код ответа</th>
                 <th>title</th>
                 <th>h1</th>
                 <th>description</th>
@@ -28,9 +28,10 @@ content = @`
             @if(page.getChecks().isEmpty())
                 <tr><td colspan="6">Проверок пока не было</td></tr>
             @else
+                !{var count = page.getChecks().size();}
                 @for(var check : page.getChecks())
                     <tr>
-                        <td>${check.getId()}</td>
+                        <td>${count--}</td>
                         <td>${check.getStatusCode()}</td>
                         <td>${check.getTitle()}</td>
                         <td>${check.getH1()}</td>
