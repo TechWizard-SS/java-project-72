@@ -8,7 +8,6 @@ content = @`
     <div class="container-lg mt-5">
         <h1>Сайт: ${page.getUrl().getName()}</h1>
 
-        @* Новая таблица с основной информацией о сайте *@
         <table class="table table-bordered table-hover mt-3">
             <tbody>
             <tr>
