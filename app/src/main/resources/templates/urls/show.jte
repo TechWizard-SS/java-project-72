@@ -1,4 +1,5 @@
 @import hexlet.code.dto.urls.UrlPage
+@import hexlet.code.utils.NamedRoutes
 @param UrlPage page
 
 @template.layout.page(
@@ -8,7 +9,7 @@ content = @`
         <h1>Сайт: ${page.getUrl().getName()}</h1>
 
         <h2 class="mt-5">Проверки</h2>
-        <form action="/urls/${page.getUrl().getId()}/checks" method="post">
+        <form action="${NamedRoutes.urlChecksPath(page.getUrl().getId())}" method="post">
             <button type="submit" class="btn btn-primary">Запустить проверку</button>
         </form>
 
@@ -41,7 +42,7 @@ content = @`
             </tbody>
         </table>
 
-        <a href="/urls" class="btn btn-secondary">Назад</a>
+        <a href="${NamedRoutes.urlsPath()}" class="btn btn-secondary">Назад</a>
     </div>
 `
 )

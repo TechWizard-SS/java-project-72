@@ -1,5 +1,6 @@
 @import gg.jte.Content
 @import hexlet.code.dto.BasePage
+@import hexlet.code.utils.NamedRoutes
 @param Content content
 @param BasePage page = null
 
@@ -14,11 +15,11 @@
 <body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Анализатор страниц</a>
+        <a class="navbar-brand" href="${NamedRoutes.rootPath()}">Анализатор страниц</a>
         <div class="collapse navbar-collapse">
             <div class="navbar-nav">
-                <a class="nav-link" href="/">Главная</a>
-                <a class="nav-link" href="/urls">Сайты</a>
+                <a class="nav-link" href="${NamedRoutes.rootPath()}">Главная</a>
+                <a class="nav-link" href="${NamedRoutes.urlsPath()}">Сайты</a>
             </div>
         </div>
     </div>
@@ -40,7 +41,7 @@
 <footer class="footer border-top py-3 mt-5 bg-light">
     <div class="container-xl">
         <div class="text-center">
-            created by <a href="https://github.com/TechWizard-SS" target="_blank">Student</a>
+            created by <a href="https://github.com/TechWizard-SS" target="_blank">TechWizard-SS</a>
         </div>
     </div>
 </footer>

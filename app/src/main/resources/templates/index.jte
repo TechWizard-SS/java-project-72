@@ -1,4 +1,5 @@
 @import hexlet.code.dto.MainPage
+@import hexlet.code.utils.NamedRoutes
 @param MainPage page
 
 @template.layout.page(
@@ -10,7 +11,7 @@ content = @`
                 <h1 class="display-5 fw-bold text-center">Анализатор страниц</h1>
                 <p class="fs-4 text-center">Бесплатно проверяйте сайты на SEO пригодность</p>
 
-                <form action="/urls" method="post" class="rss-form text-body mt-4">
+                <form action="${NamedRoutes.urlsPath()}" method="post" class="rss-form text-body mt-4">
                     <div class="row justify-content-center">
                         <div class="col-md-8 col-lg-7">
                             <div class="form-floating mb-3">

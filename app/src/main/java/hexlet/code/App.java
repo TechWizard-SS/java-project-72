@@ -7,6 +7,7 @@ import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
 import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
+import hexlet.code.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import kong.unirest.Unirest;
@@ -38,14 +39,14 @@ public class App {
             config.showJavalinBanner = false;
         });
 
-        app.get("/", ctx -> {
+        app.get(NamedRoutes.rootPath(), ctx -> {
             var page = new MainPage();
             page.setFlash(ctx.consumeSessionAttribute("flash"));
             page.setFlashType(ctx.consumeSessionAttribute("flashType"));
             ctx.render("index.jte", Collections.singletonMap("page", page));
         });
 
-        app.post("/urls", ctx -> {
+        app.post(NamedRoutes.urlsPath(), ctx -> {
             String inputUrl = ctx.formParam("url");
             try {
                 var uri = new URI(inputUrl);
@@ -62,7 +63,7 @@ public class App {
                     ctx.sessionAttribute("flash", "Страница успешно добавлена");
                     ctx.sessionAttribute("flashType", "success");
                 }
-                ctx.redirect("/urls");
+                ctx.redirect(NamedRoutes.urlsPath());
             } catch (Exception e) {
                 ctx.sessionAttribute("flash", "Некорректный URL");
                 ctx.sessionAttribute("flashType", "danger");
@@ -70,7 +71,7 @@ public class App {
             }
         });
 
-        app.get("/urls", ctx -> {
+        app.get(NamedRoutes.urlsPath(), ctx -> {
             // Получаем номер страницы из параметров, по умолчанию 1
             int pageNumber = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
             int rowsPerPage = 10;
@@ -90,7 +91,7 @@ public class App {
             ctx.render("urls/index.jte", Collections.singletonMap("page", page));
         });
 
-        app.get("/urls/{id}", ctx -> {
+        app.get(NamedRoutes.urlPath("{id}"), ctx -> {
             var id = ctx.pathParamAsClass("id", Long.class).get();
             var url = UrlRepository.findById(id)
                     .orElseThrow(() -> new io.javalin.http.NotFoundResponse("Url not found"));
@@ -101,7 +102,7 @@ public class App {
             ctx.render("urls/show.jte", Collections.singletonMap("page", page));
         });
 
-        app.post("/urls/{id}/checks", ctx -> {
+        app.post(NamedRoutes.urlChecksPath("{id}"), ctx -> {
             long urlId = ctx.pathParamAsClass("id", Long.class).get();
             var url = UrlRepository.findById(urlId)
                     .orElseThrow(() -> new io.javalin.http.NotFoundResponse("Url not found"));
@@ -126,7 +127,7 @@ public class App {
                 ctx.sessionAttribute("flash", "Некорректный адрес");
                 ctx.sessionAttribute("flashType", "danger");
             }
-            ctx.redirect("/urls/" + urlId);
+            ctx.redirect(NamedRoutes.urlPath(urlId));
         });
 
         return app;

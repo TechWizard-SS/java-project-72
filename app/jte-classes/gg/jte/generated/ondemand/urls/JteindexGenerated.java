@@ -1,8 +1,9 @@
 package gg.jte.generated.ondemand.urls;
 import hexlet.code.dto.urls.UrlsPage;
+import hexlet.code.utils.NamedRoutes;
 public final class JteindexGenerated {
 	public static final String JTE_NAME = "urls/index.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,1,1,3,3,6,6,20,20,22,22,22,24,24,24,24,24,24,24,27,27,28,28,28,29,29,32,32,33,33,33,34,34,37,37,43,43,43,43,44,44,44,44,46,46,47,47,47,47,48,48,48,48,48,48,48,50,50,51,51,51,51,52,52,52,52,57,57,57,57,57,1,1,1,1};
+	public static final int[] JTE_LINE_INFO = {0,0,1,2,2,2,4,4,7,7,21,21,23,23,23,25,25,25,25,25,25,25,25,25,25,25,25,28,28,29,29,29,30,30,33,33,34,34,34,35,35,38,38,44,44,44,44,45,45,45,45,45,45,45,45,47,47,48,48,48,48,49,49,49,49,49,49,49,49,49,49,49,51,51,52,52,52,52,53,53,53,53,53,53,53,53,58,58,58,59,59,59,2,2,2,2};
 	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, UrlsPage page) {
 		jteOutput.writeContent("\r\n");
 		gg.jte.generated.ondemand.layout.JtepageGenerated.render(jteOutput, jteHtmlInterceptor, new gg.jte.html.HtmlContent() {
@@ -12,11 +13,16 @@ public final class JteindexGenerated {
 					jteOutput.writeContent("\r\n                <tr>\r\n                    <td>");
 					jteOutput.setContext("td", null);
 					jteOutput.writeUserContent(url.getId());
-					jteOutput.writeContent("</td>\r\n                    <td>\r\n                        <a href=\"/urls/");
-					jteOutput.setContext("a", "href");
-					jteOutput.writeUserContent(url.getId());
-					jteOutput.setContext("a", null);
-					jteOutput.writeContent("\">");
+					jteOutput.writeContent("</td>\r\n                    <td>\r\n                        <a");
+					var __jte_html_attribute_0 = NamedRoutes.urlPath(url.getId());
+					if (gg.jte.runtime.TemplateUtils.isAttributeRendered(__jte_html_attribute_0)) {
+						jteOutput.writeContent(" href=\"");
+						jteOutput.setContext("a", "href");
+						jteOutput.writeUserContent(__jte_html_attribute_0);
+						jteOutput.setContext("a", null);
+						jteOutput.writeContent("\"");
+					}
+					jteOutput.writeContent(">");
 					jteOutput.setContext("a", null);
 					jteOutput.writeUserContent(url.getName());
 					jteOutput.writeContent("</a>\r\n                    </td>\r\n                    <td>\r\n                        ");
@@ -39,7 +45,11 @@ public final class JteindexGenerated {
 				jteOutput.setContext("li", "class");
 				jteOutput.writeUserContent(page.getPageNumber() <= 1 ? "disabled" : "");
 				jteOutput.setContext("li", null);
-				jteOutput.writeContent("\">\r\n                    <a class=\"page-link\" href=\"/urls?page=");
+				jteOutput.writeContent("\">\r\n                    <a class=\"page-link\" href=\"");
+				jteOutput.setContext("a", "href");
+				jteOutput.writeUserContent(NamedRoutes.urlsPath());
+				jteOutput.setContext("a", null);
+				jteOutput.writeContent("?page=");
 				jteOutput.setContext("a", "href");
 				jteOutput.writeUserContent(Math.max(1, page.getPageNumber() - 1));
 				jteOutput.setContext("a", null);
@@ -49,7 +59,11 @@ public final class JteindexGenerated {
 					jteOutput.setContext("li", "class");
 					jteOutput.writeUserContent(i == page.getPageNumber() ? "active" : "");
 					jteOutput.setContext("li", null);
-					jteOutput.writeContent("\">\r\n                        <a class=\"page-link\" href=\"/urls?page=");
+					jteOutput.writeContent("\">\r\n                        <a class=\"page-link\" href=\"");
+					jteOutput.setContext("a", "href");
+					jteOutput.writeUserContent(NamedRoutes.urlsPath());
+					jteOutput.setContext("a", null);
+					jteOutput.writeContent("?page=");
 					jteOutput.setContext("a", "href");
 					jteOutput.writeUserContent(i);
 					jteOutput.setContext("a", null);
@@ -62,13 +76,18 @@ public final class JteindexGenerated {
 				jteOutput.setContext("li", "class");
 				jteOutput.writeUserContent(page.getPageNumber() >= page.getTotalPages() ? "disabled" : "");
 				jteOutput.setContext("li", null);
-				jteOutput.writeContent("\">\r\n                    <a class=\"page-link\" href=\"/urls?page=");
+				jteOutput.writeContent("\">\r\n                    <a class=\"page-link\" href=\"");
+				jteOutput.setContext("a", "href");
+				jteOutput.writeUserContent(NamedRoutes.urlsPath());
+				jteOutput.setContext("a", null);
+				jteOutput.writeContent("?page=");
 				jteOutput.setContext("a", "href");
 				jteOutput.writeUserContent(Math.min(page.getTotalPages(), page.getPageNumber() + 1));
 				jteOutput.setContext("a", null);
 				jteOutput.writeContent("\">Вперёд</a>\r\n                </li>\r\n            </ul>\r\n        </nav>\r\n    </div>\r\n");
 			}
 		}, page);
+		jteOutput.writeContent("\r\n");
 	}
 	public static void renderMap(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, java.util.Map<String, Object> params) {
 		UrlsPage page = (UrlsPage)params.get("page");
