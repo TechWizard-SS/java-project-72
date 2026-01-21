@@ -12,19 +12,27 @@ content = @`
                 <p class="fs-4 text-center">Бесплатно проверяйте сайты на SEO пригодность</p>
 
                 <form action="${NamedRoutes.urlsPath()}" method="post" class="rss-form text-body mt-4">
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center align-items-stretch">
                         <div class="col-md-8 col-lg-7">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="url" id="url-input" placeholder="Ссылка" required>
+                            <div class="form-floating">
+                                <input type="text" class="form-control w-100" name="url" id="url-input" placeholder="Ссылка" required>
                                 <label for="url-input">Ссылка</label>
                             </div>
                         </div>
-                        <div class="col-md-auto">
+                        <div class="col-md-auto mt-3 mt-md-0">
                             <button type="submit" class="h-100 btn btn-lg btn-primary px-5">Проверить</button>
                         </div>
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 col-lg-7">
+                            <p class="mt-2 mb-0 text-white-50">Пример: https://www.example.com</p>
+                        </div>
+                        <div class="col-md-auto">
+                            <div style="width: 175px;" class="d-none d-md-block"></div>
+                        </div>
+                    </div>
                 </form>
-                <p class="mt-2 mb-0 text-muted text-center">Пример: https://www.example.com</p>
             </div>
         </div>
     </div>
