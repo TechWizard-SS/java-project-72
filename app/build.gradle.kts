@@ -1,5 +1,4 @@
 plugins {
-    id("java")
     id("application")
     id("io.freefair.lombok") version "8.4"
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -31,9 +30,6 @@ dependencies {
 
     implementation("com.konghq:unirest-java:3.14.5")
     implementation("org.jsoup:jsoup:1.17.2")
-
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

@@ -9,11 +9,14 @@ public class DataSourceConfig {
 
     public static DataSource getDataSource() {
         if (dataSource == null) {
-            String jdbcUrl = System.getenv().getOrDefault("JDBC_DATABASE_URL",
-                    "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:init.sql'");
-
             HikariConfig config = new HikariConfig();
-            config.setJdbcUrl(jdbcUrl);
+
+            config.setJdbcUrl(System.getenv().getOrDefault("JDBC_DATABASE_URL",
+                    "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1"));
+
+            config.setUsername(System.getenv("JDBC_DATABASE_USERNAME"));
+            config.setPassword(System.getenv("JDBC_DATABASE_PASSWORD"));
+
             dataSource = new HikariDataSource(config);
         }
         return dataSource;

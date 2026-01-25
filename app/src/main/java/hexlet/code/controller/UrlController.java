@@ -13,7 +13,6 @@ import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 import java.net.URI;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Collections;
 
 public class UrlController {
@@ -47,27 +46,30 @@ public class UrlController {
 
     public static void create(Context ctx) throws SQLException {
         var inputUrl = ctx.formParam("url");
+        String normalizedUrl;
+
         try {
             var uri = new URI(inputUrl);
             var urlObj = uri.toURL();
-            var normalized = urlObj.getProtocol() + "://" + urlObj.getHost()
+            normalizedUrl = urlObj.getProtocol() + "://" + urlObj.getHost()
                     + (urlObj.getPort() != -1 ? ":" + urlObj.getPort() : "");
-
-            if (UrlRepository.findByName(normalized).isPresent()) {
-                ctx.sessionAttribute("flash", "Страница уже существует");
-                ctx.sessionAttribute("flashType", "info");
-            } else {
-                UrlRepository.save(new Url(normalized));
-                ctx.sessionAttribute("flash", "Страница успешно добавлена");
-                ctx.sessionAttribute("flashType", "success");
-            }
-
-            ctx.redirect(NamedRoutes.urlsPath());
         } catch (Exception e) {
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.sessionAttribute("flashType", "danger");
             ctx.redirect(NamedRoutes.rootPath());
+            return;
         }
+
+        if (UrlRepository.findByName(normalizedUrl).isPresent()) {
+            ctx.sessionAttribute("flash", "Страница уже существует");
+            ctx.sessionAttribute("flashType", "info");
+        } else {
+            UrlRepository.save(new Url(normalizedUrl));
+            ctx.sessionAttribute("flash", "Страница успешно добавлена");
+            ctx.sessionAttribute("flashType", "success");
+        }
+
+        ctx.redirect(NamedRoutes.urlsPath());
     }
 
     public static void check(Context ctx) throws SQLException {
@@ -87,7 +89,6 @@ public class UrlController {
             var description = descEl != null ? descEl.attr("content") : "";
 
             var check = new UrlCheck(statusCode, title, h1, description, urlId);
-            check.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             UrlCheckRepository.save(check);
 
             ctx.sessionAttribute("flash", "Страница успешно проверена");

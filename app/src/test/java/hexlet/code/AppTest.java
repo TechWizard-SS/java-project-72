@@ -20,9 +20,23 @@ public final class AppTest {
     private static MockWebServer mockServer;
 
     @BeforeAll
-    public static void startMockServer() throws IOException {
+    public static void beforeAll() throws IOException, SQLException {
         mockServer = new MockWebServer();
         mockServer.start();
+
+        var dataSource = DataSourceConfig.getDataSource();
+        // Читаем скрипт ОДИН раз для создания таблиц
+        try (var is = App.class.getClassLoader().getResourceAsStream("schema.sql")) {
+            if (is == null) {
+                throw new RuntimeException("File schema.sql not found");
+            }
+            try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(is));
+                 var conn = dataSource.getConnection();
+                 var stmt = conn.createStatement()) {
+                var sql = reader.lines().collect(java.util.stream.Collectors.joining("\n"));
+                stmt.execute(sql);
+            }
+        }
     }
 
     @AfterAll
@@ -48,7 +62,7 @@ public final class AppTest {
             assertThat(response.body().string()).contains("Анализатор страниц");
         });
     }
-
+// init
     @Test
     public void testCreateUrl() throws SQLException {
         JavalinTest.test(App.getApp(), (server, client) -> {

@@ -3,21 +3,20 @@ package hexlet.code.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class Url {
-
-    @Setter
     private Long id;
     private String name;
-    private Timestamp createdAt;
+    private Instant createdAt;
 
     public Url(String name) {
         this.name = name;
-        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
-
 }

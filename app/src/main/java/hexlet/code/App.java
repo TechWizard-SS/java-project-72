@@ -4,7 +4,6 @@ import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
-import io.javalin.rendering.template.JavalinJte;
 import hexlet.code.repository.BaseRepository;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
@@ -19,17 +18,16 @@ public class App {
         return TemplateEngine.create(resolver, ContentType.Html);
     }
 
+
     public static Javalin getApp() throws SQLException {
         var dataSource = DataSourceConfig.getDataSource();
-
-        if (BaseRepository.dataSource == null) {
-            BaseRepository.dataSource = dataSource;
-        }
+        BaseRepository.dataSource = dataSource;
 
         var app = Javalin.create(config -> {
-            config.fileRenderer(new JavalinJte(createTemplateEngine()));
+            config.fileRenderer(new io.javalin.rendering.template.JavalinJte(createTemplateEngine()));
             config.showJavalinBanner = false;
         });
+
 
         app.get(NamedRoutes.rootPath(), RootController::index);
         app.post(NamedRoutes.urlsPath(), UrlController::create);
