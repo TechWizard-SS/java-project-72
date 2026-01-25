@@ -1,9 +1,9 @@
 # Windows-версия (для CMD/PowerShell)
 install:
-	.\gradlew.bat clean install
+	.\gradlew.bat clean installDist
 
 run-dist: install
-	.\build\install\app\bin\app.bat
+	.\app\build\install\app\bin\app.bat
 
 check-updates:
 	.\gradlew.bat dependencyUpdates
@@ -16,21 +16,21 @@ build:
 
 # Unix-версия (для Git Bash/WSL)
 ifeq ($(OS),Windows_NT)
-    # Windows-команды выше
+    # Команды выше
 else
-install(Unix):
-	./gradlew clean install
+install:
+	./gradlew clean installDist
 
-run-dist(Unix): install
-	./build/install/app/bin/app
+run-dist: install
+	./app/build/install/app/bin/app
 
-check-updates(Unix):
+check-updates:
 	./gradlew dependencyUpdates
 
-lint(Unix):
+lint:
 	./gradlew checkstyleMain
 
-build(Unix):
+build:
 	./gradlew clean build
 endif
 
