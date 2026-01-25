@@ -62,7 +62,7 @@ public final class AppTest {
             assertThat(response.body().string()).contains("Анализатор страниц");
         });
     }
-// init
+
     @Test
     public void testCreateUrl() throws SQLException {
         JavalinTest.test(App.getApp(), (server, client) -> {
@@ -137,6 +137,60 @@ public final class AppTest {
             assertThat(body).contains("Test Title");
             assertThat(body).contains("Test H1");
             assertThat(body).contains("Test Description");
+        });
+    }
+
+    @Test
+    public void testCreateInvalidUrl() throws SQLException {
+        JavalinTest.test(App.getApp(), (server, client) -> {
+            var requestBody = "url=invalid-url";
+            var response = client.post("/urls", requestBody);
+
+            assertThat(response.code()).isEqualTo(200); // Мы редиректим обратно на главную
+            // Проверяем, что в базе ничего не появилось
+            assertThat(UrlRepository.findByName("invalid-url")).isEmpty();
+        });
+    }
+
+    @Test
+    public void testCreateDuplicateUrl() throws SQLException {
+        var url = "https://hexlet.io";
+        UrlRepository.save(new Url(url));
+
+        JavalinTest.test(App.getApp(), (server, client) -> {
+            var requestBody = "url=" + url;
+            var response = client.post("/urls", requestBody);
+
+            assertThat(response.code()).isEqualTo(200);
+            // Проверяем, что в базе по-прежнему только одна запись
+            assertThat(UrlRepository.count()).isEqualTo(1);
+        });
+    }
+
+    @Test
+    public void testUrlNotFound() throws SQLException {
+        JavalinTest.test(App.getApp(), (server, client) -> {
+            var response = client.get("/urls/9999");
+            assertThat(response.code()).isEqualTo(404);
+        });
+    }
+
+    @Test
+    public void testCheckUrlError() throws SQLException {
+        // Создаем реальный URL, но MockServer вернет ошибку 500
+        mockServer.enqueue(new MockResponse().setResponseCode(500));
+
+        Url url = new Url("http://localhost:" + mockServer.getPort());
+        UrlRepository.save(url);
+
+        JavalinTest.test(App.getApp(), (server, client) -> {
+            var response = client.post("/urls/" + url.getId() + "/checks");
+            assertThat(response.code()).isEqualTo(200);
+
+            // Проверяем, что проверка сохранилась, даже если статус был 500
+            var checks = UrlCheckRepository.findByUrlId(url.getId());
+            assertThat(checks).isNotEmpty();
+            assertThat(checks.get(0).getStatusCode()).isEqualTo(500);
         });
     }
 }
