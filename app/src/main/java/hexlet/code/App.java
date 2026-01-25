@@ -8,6 +8,8 @@ import hexlet.code.repository.BaseRepository;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class App {
@@ -38,7 +40,26 @@ public class App {
         return app;
     }
 
-    public static void main(String[] args) throws SQLException {
+    private static void initializeDatabase() throws SQLException, IOException {
+        var dataSource = DataSourceConfig.getDataSource();
+        var is = App.class.getClassLoader().getResourceAsStream("schema.sql");
+
+        if (is == null) {
+            throw new RuntimeException("schema.sql not found in resources");
+        }
+
+        try (var reader = new java.io.BufferedReader(new java.io.InputStreamReader(is));
+             var conn = dataSource.getConnection();
+             var stmt = conn.createStatement()) {
+
+            var sql = reader.lines().collect(java.util.stream.Collectors.joining("\n"));
+            stmt.execute(sql);
+        }
+    }
+
+    public static void main(String[] args) throws SQLException, IOException {
+        initializeDatabase();
+
         var app = getApp();
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7070"));
         app.start(port);
