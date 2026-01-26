@@ -13,7 +13,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=TechWizard-SS_java-project-72&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=TechWizard-SS_java-project-72)
 
 
-### [Посмотреть демо на Render (если есть ссылка)]
+### [Посмотреть демо на Render (https://java-project-72-i64i.onrender.com/urls)]
 
 **Анализатор страниц** — это полноценное веб-приложение на Java (Javalin), которое позволяет проверять указанные сайты на соответствие SEO-стандартам. Оно сканирует страницы, проверяет статус-код ответа и извлекает важные мета-теги (Title, H1, Description).
 
